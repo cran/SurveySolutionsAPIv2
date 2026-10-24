@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Quickstart: Connecting and Exploring Your Server</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Quickstart: Connecting and Exploring Your
+Server</h1>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p><strong><code>SurveySolutionsAPIv2</code></strong> provides a
+complete R interface to the World Bank’s <a href="https://mysurvey.solutions">Survey Solutions</a> Computer-Assisted
+Personal Interviewing (CAPI) and Computer-Assisted Web Interviewing
+(CAWI) platform.</p>
+<p>Powered by modern <a href="https://httr2.r-lib.org/"><code>httr2</code></a>, it supports all
+current Survey Solutions REST endpoints, GraphQL queries/mutations,
+asynchronous batch exports, paradata processing, and questionnaire
+parsing.</p>
+<p>In this quickstart guide, you will learn how to: 1. Configure
+credentials securely. 2. Verify server connectivity. 3. Manage and
+switch workspaces. 4. Discover questionnaires deployed on your
+server.</p>
+<hr />
+</div>
+<div id="setting-up-credentials" class="section level2">
+<h2>1. Setting Up Credentials</h2>
+<p>Survey Solutions servers support two authentication mechanisms: -
+<strong>API User and Password</strong> (Basic Authentication) -
+<strong>API Token</strong> (Token-based Authentication)</p>
+<div id="best-practice-environment-variables" class="section level3">
+<h3>Best Practice: Environment Variables</h3>
+<p>For security and reproducibility, avoid writing credentials directly
+into scripts. Store them in your <code>.Renviron</code> file:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode sh"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># In ~/.Renviron</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="va">SUSO_SERVER</span><span class="op">=</span><span class="st">&quot;https://your-server.mysurvey.solutions&quot;</span></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="va">SUSO_USER</span><span class="op">=</span><span class="st">&quot;your_api_user&quot;</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="va">SUSO_PASSWORD</span><span class="op">=</span><span class="st">&quot;your_secure_password&quot;</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="va">SUSO_WORKSPACE</span><span class="op">=</span><span class="st">&quot;primary&quot;</span></span></code></pre></div>
+</div>
+<div id="initializing-credentials-in-r" class="section level3">
+<h3>Initializing Credentials in R</h3>
+<p>Use <code>suso_set_key()</code> to configure the credentials in your
+active R session. Once configured, all other functions automatically
+reuse these settings:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(SurveySolutionsAPIv2)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co"># Set credentials using environment variables</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">suso_set_key</span>(</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a>  <span class="at">suso_server   =</span> <span class="fu">Sys.getenv</span>(<span class="st">&quot;SUSO_SERVER&quot;</span>, <span class="st">&quot;https://your-server.mysurvey.solutions&quot;</span>),</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a>  <span class="at">suso_user     =</span> <span class="fu">Sys.getenv</span>(<span class="st">&quot;SUSO_USER&quot;</span>, <span class="st">&quot;api_user&quot;</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>  <span class="at">suso_password =</span> <span class="fu">Sys.getenv</span>(<span class="st">&quot;SUSO_PASSWORD&quot;</span>, <span class="st">&quot;secret_pass&quot;</span>),</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>  <span class="at">workspace     =</span> <span class="fu">Sys.getenv</span>(<span class="st">&quot;SUSO_WORKSPACE&quot;</span>, <span class="st">&quot;primary&quot;</span>)</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a>)</span></code></pre></div>
+<p>If using an API token:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">suso_set_key</span>(</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>  <span class="at">suso_server =</span> <span class="st">&quot;https://your-server.mysurvey.solutions&quot;</span>,</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>  <span class="at">suso_token  =</span> <span class="st">&quot;your_api_token_here&quot;</span>,</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>  <span class="at">workspace   =</span> <span class="st">&quot;primary&quot;</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+<div id="checking-and-clearing-stored-credentials" class="section level3">
+<h3>Checking and Clearing Stored Credentials</h3>
+<p>You can inspect the active configuration or retrieve individual
+credentials:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Inspect stored credentials (masked in output)</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">suso_keys</span>()</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt; $suso</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt; $suso$susoServer</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; $suso$susoUser</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; $suso$susoPass</span></span>
+<span id="cb4-11"><a href="#cb4-11" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb4-12"><a href="#cb4-12" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-13"><a href="#cb4-13" tabindex="-1"></a><span class="co">#&gt; $suso$workspace</span></span>
+<span id="cb4-14"><a href="#cb4-14" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span>
+<span id="cb4-15"><a href="#cb4-15" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-16"><a href="#cb4-16" tabindex="-1"></a><span class="co">#&gt; </span></span>
+<span id="cb4-17"><a href="#cb4-17" tabindex="-1"></a><span class="co">#&gt; attr(,&quot;class&quot;)</span></span>
+<span id="cb4-18"><a href="#cb4-18" tabindex="-1"></a><span class="co">#&gt; [1] &quot;suso_api&quot;</span></span>
+<span id="cb4-19"><a href="#cb4-19" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" tabindex="-1"></a><span class="co"># Retrieve a specific active setting</span></span>
+<span id="cb4-21"><a href="#cb4-21" tabindex="-1"></a><span class="fu">suso_get_api_key</span>(<span class="st">&quot;workspace&quot;</span>)</span>
+<span id="cb4-22"><a href="#cb4-22" tabindex="-1"></a><span class="co">#&gt; [1] NA</span></span></code></pre></div>
+<p>To clear credentials from the session at any time:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">suso_clear_keys</span>()</span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="testing-server-connectivity" class="section level2">
+<h2>2. Testing Server Connectivity</h2>
+<p>Before launching survey operations, test connectivity and credentials
+using <code>suso_PwCheck()</code>. This function returns HTTP status
+code <code>200</code> on success, or <code>400</code> / error if
+credentials or connectivity fail:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Test connection to the default workspace</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>status <span class="ot">&lt;-</span> <span class="fu">suso_PwCheck</span>()</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="cf">if</span> (status <span class="sc">==</span> <span class="dv">200</span>) {</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">message</span>(<span class="st">&quot;Connected successfully to Survey Solutions!&quot;</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>}</span></code></pre></div>
+<pre><code>#&gt; Connected successfully to Survey Solutions!</code></pre>
+<hr />
+</div>
+<div id="discovering-and-switching-workspaces" class="section level2">
+<h2>3. Discovering and Switching Workspaces</h2>
+<p>Survey Solutions allows segmenting operations across independent
+workspaces.</p>
+<div id="listing-all-workspaces" class="section level3">
+<h3>Listing All Workspaces</h3>
+<p><code>suso_getWorkspace()</code> lists all workspaces available to
+the authenticated user:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>workspaces <span class="ot">&lt;-</span> <span class="fu">suso_getWorkspace</span>()</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">print</span>(workspaces)</span></code></pre></div>
+<pre><code>#&gt;       Name       DisplayName DisabledAtUtc CreatedAtUtc
+#&gt;     &lt;char&gt;            &lt;char&gt;        &lt;lgcl&gt;       &lt;lgcl&gt;
+#&gt; 1: primary Default Workspace            NA           NA</code></pre>
+</div>
+<div id="switching-workspaces" class="section level3">
+<h3>Switching Workspaces</h3>
+<p>To switch the active workspace without re-entering server
+credentials, use <code>suso_set_workspace()</code>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="co"># Switch to another workspace</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">suso_set_workspace</span>(<span class="st">&quot;pilot_study&quot;</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co"># Switch back to the primary workspace</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">suso_set_workspace</span>(<span class="st">&quot;primary&quot;</span>)</span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="discovering-deployed-questionnaires" class="section level2">
+<h2>4. Discovering Deployed Questionnaires</h2>
+<p>To see all questionnaires published in the current workspace, call
+<code>suso_getQuestDetails()</code> with
+<code>operation.type = &quot;list&quot;</code>:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>quest_list <span class="ot">&lt;-</span> <span class="fu">suso_getQuestDetails</span>(<span class="at">operation.type =</span> <span class="st">&quot;list&quot;</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">print</span>(quest_list[, .(Title, Variable, Version, QuestionnaireId)])</span></code></pre></div>
+<pre><code>#&gt; Key: &lt;Variable, QuestionnaireId, Version&gt;
+#&gt;                      Title       Variable Version
+#&gt;                     &lt;char&gt;         &lt;char&gt;   &lt;int&gt;
+#&gt; 1:    Yemen HBS 2025-Pilot hbs_yemen_2025       1
+#&gt; 2: SuSo_Dashboard_Incoming     susodashin       1
+#&gt;                         QuestionnaireId
+#&gt;                                  &lt;char&gt;
+#&gt; 1: 17a9fa22-1ef6-46d2-8c30-426aa876f273
+#&gt; 2: a383ce13-1c14-4171-a3ca-7ffce2ae388a</code></pre>
+<p>The returned <code>QuestionnaireId</code> (GUID) and
+<code>Version</code> are the primary identifiers needed for
+questionnaire structure extraction, assignment creation, and data
+export.</p>
+<hr />
+</div>
+<div id="global-package-options" class="section level2">
+<h2>5. Global Package Options</h2>
+<p><code>SurveySolutionsAPIv2</code> provides several options to control
+execution behavior, concurrency, and Shiny integration:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># Default maximum parallel requests</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">getOption</span>(<span class="st">&quot;suso.maxpar.req&quot;</span>, <span class="at">default =</span> <span class="dv">100</span>)</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="co">#&gt; [1] 100</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a><span class="co"># Modify parallel request ceiling</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a><span class="fu">suso_set_maxpar_req</span>(<span class="dv">50</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a><span class="co"># Reset to standard</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="fu">suso_set_maxpar_req</span>(<span class="dv">100</span>)</span></code></pre></div>
+<p>When integrating with Shiny apps, progress messages and credential
+validation toasts can be customized using
+<code>suso_set_pwcheck_mess()</code> and
+<code>suso_set_prog_mess()</code>.</p>
+<hr />
+</div>
+<div id="next-steps" class="section level2">
+<h2>Next Steps</h2>
+<p>Now that you are connected, proceed to: - <strong><a href="questionnaires.html">Questionnaires, Structure, and
+Codebooks</a></strong>: Learn how to parse questionnaire hierarchies,
+extract skip logic, validations, and generate codebooks. - <strong><a href="survey_management.html">Field Operations, Users, and
+Assignments</a></strong>: Batch-create users, generate sample
+assignments, and assign maps. - <strong><a href="interview_monitoring.html">Interview Monitoring, Paradata, and
+Quality Control</a></strong>: Track interview workflow and monitor field
+timings. - <strong><a href="data_export.html">Data Export and Processing
+Pipelines</a></strong>: Automate export jobs and generate analysis-ready
+data tables.</p>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

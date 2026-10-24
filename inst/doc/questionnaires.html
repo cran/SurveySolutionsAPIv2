@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Questionnaires, Structure, and Codebooks</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Questionnaires, Structure, and
+Codebooks</h1>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Survey Solutions questionnaires are sophisticated hierarchical
+documents comprising sections, multi-level rosters, conditional skip
+patterns, inline validation rules, static text instructions, and
+calculated variables.</p>
+<p>With <strong><code>SurveySolutionsAPIv2</code></strong>, you can
+extract the entire questionnaire specification in milliseconds into
+clean, normalized flat tables. This enables automated codebook
+generation, survey documentation, and pre-fieldwork verification of
+routing logic.</p>
+<hr />
+</div>
+<div id="extracting-questionnaire-structure" class="section level2">
+<h2>1. Extracting Questionnaire Structure</h2>
+<p>To extract the structure of a questionnaire, supply the
+<code>QuestionnaireId</code> (GUID), <code>version</code>, and specify
+<code>operation.type = &quot;structure&quot;</code>:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(SurveySolutionsAPIv2)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># Extract questionnaire structure</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>quest_struct <span class="ot">&lt;-</span> <span class="fu">suso_getQuestDetails</span>(</span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a>  <span class="at">questID =</span> <span class="st">&quot;17a9fa22-1ef6-46d2-8c30-426aa876f273&quot;</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a>  <span class="at">version =</span> <span class="dv">1</span>,</span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a>  <span class="at">operation.type =</span> <span class="st">&quot;structure&quot;</span>,</span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>  <span class="at">include_raw =</span> <span class="cn">FALSE</span></span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>)</span></code></pre></div>
+<p>The function returns a named list with <strong>4 structured
+<code>data.table</code> elements</strong>:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">names</span>(quest_struct)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="co">#&gt; [1] &quot;q&quot;       &quot;val&quot;     &quot;v&quot;       &quot;answers&quot;</span></span></code></pre></div>
+<ul>
+<li><strong><code>q</code></strong>: Question, roster, and variable
+metadata.</li>
+<li><strong><code>val</code></strong>: Validation rules, expressions,
+messages, and severity labels.</li>
+<li><strong><code>v</code></strong>: Backward-compatible alias for
+<code>val</code>.</li>
+<li><strong><code>answers</code></strong>: Categorical question answer
+codes, labels, and category mapping.</li>
+</ul>
+<hr />
+</div>
+<div id="question-hierarchy-and-metadata-q" class="section level2">
+<h2>2. Question Hierarchy and Metadata (<code>q</code>)</h2>
+<p>The <code>q</code> table provides an atomic, row-by-row flat
+representation of every item in the questionnaire:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">dim</span>(quest_struct<span class="sc">$</span>q)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#&gt; [1] 925  29</span></span></code></pre></div>
+<div id="inspecting-essential-columns" class="section level3">
+<h3>Inspecting Essential Columns</h3>
+<p>Key columns include: - <strong><code>intID</code></strong>:
+Hierarchical index formatted as clean dot-separated levels
+(e.g. <code>01</code>, <code>01.02</code>, <code>01.02.04</code>). -
+<strong><code>VariableName</code></strong>: Variable name used during
+data export. - <strong><code>QuestionText</code></strong>: Formatted
+question prompt or label. - <strong><code>type</code></strong>: Element
+type (<code>SingleQuestion</code>, <code>NumericQuestion</code>,
+<code>TextQuestion</code>, <code>GpsCoordinateQuestion</code>,
+<code>AreaQuestion</code>, <code>Variable</code>,
+<code>StaticText</code>, etc.). -
+<strong><code>SectionTitle</code></strong> &amp;
+<strong><code>RosterTitle</code></strong>: Contextual hierarchy
+indicating parent sections and rosters.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Display a sample of questions</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>quest_struct<span class="sc">$</span>q[<span class="dv">1</span><span class="sc">:</span><span class="dv">6</span>, .(intID, VariableName, type, <span class="at">QuestionText =</span> <span class="fu">substr</span>(QuestionText, <span class="dv">1</span>, <span class="dv">40</span>))]</span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co">#&gt;     intID VariableName           type                          QuestionText</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a><span class="co">#&gt;    &lt;char&gt;       &lt;char&gt;         &lt;char&gt;                                &lt;char&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="co">#&gt; 1:     01                       Group                                  &lt;NA&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a><span class="co">#&gt; 2:  01.01                  StaticText Household Budget Survey (HBS) 2025/26</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a><span class="co">#&gt; 3:  01.02      cover01 SingleQuestion                        1. Governorate</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a><span class="co">#&gt; 4:  01.03      cover02 SingleQuestion                           2. District</span></span>
+<span id="cb4-9"><a href="#cb4-9" tabindex="-1"></a><span class="co">#&gt; 5:  01.04      cover03 SingleQuestion                       3. Sub-district</span></span>
+<span id="cb4-10"><a href="#cb4-10" tabindex="-1"></a><span class="co">#&gt; 6:  01.05      cover04   TextQuestion                       4. Grid cell ID</span></span></code></pre></div>
+</div>
+<div id="static-text-and-calculated-variables" class="section level3">
+<h3>Static Text and Calculated Variables</h3>
+<p>Unlike standard survey tools, Survey Solutions supports static text
+blocks and calculated variables (derived formulas).
+<code>SurveySolutionsAPIv2</code> captures both without data loss:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="co"># Calculated variables and expressions</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>calc_vars <span class="ot">&lt;-</span> quest_struct<span class="sc">$</span>q[type <span class="sc">==</span> <span class="st">&quot;Variable&quot;</span>, .(VariableName, Expression, VariableType, VariableLabel)]</span></code></pre></div>
+<pre><code>#&gt;    VariableName                           Expression VariableType
+#&gt;          &lt;char&gt;                               &lt;char&gt;        &lt;int&gt;
+#&gt; 1:     age_greg  /* This calculate the age from the             1
+#&gt; 2:    age_month  CenturyMonthCode(start.Value.Month,            1
+#&gt; 3:       S1Q06a  hhr_brthcal==1?\nage_greg : S1Q06ya            1
+#&gt; 4: final_months hhr_brthcal==1?\nage_month : (S1Q06b            1
+#&gt; 5: S1Q10_over6m                     (S1Q12&gt;6) ? 1:2             1</code></pre>
+<hr />
+</div>
+</div>
+<div id="skip-patterns-and-routing-logic" class="section level2">
+<h2>3. Skip Patterns and Routing Logic</h2>
+<p>Routing conditions (<code>ConditionExpression</code>) define when a
+question or entire roster is visible or skipped:</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Questions with routing conditions</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>conditions <span class="ot">&lt;-</span> quest_struct<span class="sc">$</span>q[<span class="sc">!</span><span class="fu">is.na</span>(ConditionExpression) <span class="sc">&amp;</span> <span class="fu">nchar</span>(ConditionExpression) <span class="sc">&gt;</span> <span class="dv">0</span>,</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>                            .(VariableName, <span class="at">ConditionExpression =</span> <span class="fu">substr</span>(ConditionExpression, <span class="dv">1</span>, <span class="dv">50</span>))]</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="fu">head</span>(conditions, <span class="dv">5</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="co">#&gt;      VariableName ConditionExpression</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#&gt;            &lt;char&gt;              &lt;char&gt;</span></span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="co">#&gt; 1: refusal_reason        consent00==2</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="co">#&gt; 2: refusal_others  refusal_reason==96</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a><span class="co">#&gt; 3:                       consent00==1</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a><span class="co">#&gt; 4:                       consent00==1</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a><span class="co">#&gt; 5:            q14        consent00==1</span></span></code></pre></div>
+<p>Survey designers can use this table to verify that skip patterns
+reference valid prior variables before piloting.</p>
+<hr />
+</div>
+<div id="validation-rules-and-severity-val" class="section level2">
+<h2>4. Validation Rules and Severity (<code>val</code>)</h2>
+<p>The <code>val</code> table extracts all Designer validation
+expressions and their associated error messages:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">dim</span>(quest_struct<span class="sc">$</span>val)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; [1] 308  10</span></span></code></pre></div>
+<p>Each validation record provides: -
+<strong><code>VariableName</code></strong>: The target variable being
+validated. - <strong><code>Expression</code></strong>: The C# boolean
+expression that must evaluate to <code>true</code>. -
+<strong><code>Message</code></strong>: The message presented to the
+enumerator if the expression evaluates to <code>false</code>. -
+<strong><code>Severity</code></strong>: <code>0</code> for Error (blocks
+completion), <code>1</code> for Warning (can be acknowledged). -
+<strong><code>SeverityLabel</code></strong>: Human-readable
+<code>&quot;Error&quot;</code> or <code>&quot;Warning&quot;</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># Inspect validation rules</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>quest_struct<span class="sc">$</span>val[<span class="dv">1</span><span class="sc">:</span><span class="dv">5</span>, .(VariableName, <span class="at">Expression =</span> <span class="fu">substr</span>(Expression, <span class="dv">1</span>, <span class="dv">30</span>), SeverityLabel, <span class="at">Message =</span> <span class="fu">substr</span>(Message, <span class="dv">1</span>, <span class="dv">35</span>))]</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt;      VariableName                 Expression SeverityLabel</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#&gt;            &lt;char&gt;                     &lt;char&gt;        &lt;char&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#&gt; 1:         q6_oth              self.Length&gt;2         Error</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="co">#&gt; 2:         q9_oth              self.Length&gt;2         Error</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; 3:     q9_flr_oth self &gt; 6 &amp;&amp; self &lt;= 20\r\n         Error</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="co">#&gt; 4: refusal_others              self.Length&gt;2         Error</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; 5:            q15            self.Length&gt;=10         Error</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a><span class="co">#&gt;                                Message</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="co">#&gt;                                 &lt;char&gt;</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a><span class="co">#&gt; 1: Specification is too short. Please </span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a><span class="co">#&gt; 2: Specification is too short. Please </span></span>
+<span id="cb9-14"><a href="#cb9-14" tabindex="-1"></a><span class="co">#&gt; 3:                                    </span></span>
+<span id="cb9-15"><a href="#cb9-15" tabindex="-1"></a><span class="co">#&gt; 4: Specification is very short. Please</span></span>
+<span id="cb9-16"><a href="#cb9-16" tabindex="-1"></a><span class="co">#&gt; 5: The reason is not detailed. Please</span></span></code></pre></div>
+<hr />
+</div>
+<div id="generating-codebooks-answers" class="section level2">
+<h2>5. Generating Codebooks (<code>answers</code>)</h2>
+<p>For categorical questions (single-select and multi-select), the
+<code>answers</code> table captures all answer options:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">dim</span>(quest_struct<span class="sc">$</span>answers)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="co">#&gt; [1] 1373    8</span></span></code></pre></div>
+<p>Each record contains: - <strong><code>VariableName</code></strong>:
+Parent variable name. - <strong><code>AnswerValue</code></strong>:
+Internal key. - <strong><code>AnswerCode</code></strong>: Numeric code
+exported in datasets. - <strong><code>AnswerText</code></strong>: Label
+shown to respondents and enumerators. -
+<strong><code>CategoriesId</code></strong> &amp;
+<strong><code>CategoryName</code></strong>: Reusable category catalogue
+reference if applicable.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># View codebook options for a sample question</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>sample_var <span class="ot">&lt;-</span> quest_struct<span class="sc">$</span>answers[<span class="sc">!</span><span class="fu">is.na</span>(AnswerText)][<span class="dv">1</span>, VariableName]</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>quest_struct<span class="sc">$</span>answers[VariableName <span class="sc">==</span> sample_var, .(VariableName, AnswerCode, AnswerText)]</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a><span class="co">#&gt;    VariableName AnswerCode   AnswerText</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a><span class="co">#&gt;          &lt;char&gt;      &lt;num&gt;       &lt;char&gt;</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="co">#&gt; 1:      cover05          1 Sub-cell N°1</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a><span class="co">#&gt; 2:      cover05          2 Sub-cell N°2</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a><span class="co">#&gt; 3:      cover05          3 Sub-cell N°3</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a><span class="co">#&gt; 4:      cover05          4 Sub-cell N°4</span></span></code></pre></div>
+<hr />
+</div>
+<div id="clean-flat-tables-vs-raw-json" class="section level2">
+<h2>6. Clean Flat Tables vs Raw JSON</h2>
+<p>By default, <code>include_raw = FALSE</code> produces pure atomic
+tables with no list-columns. This ensures direct compatibility with file
+writers like <code>data.table::fwrite()</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="co"># Export directly to CSV without list-column serialization errors</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>data.table<span class="sc">::</span><span class="fu">fwrite</span>(quest_struct<span class="sc">$</span>q, <span class="st">&quot;questionnaire_metadata.csv&quot;</span>)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>data.table<span class="sc">::</span><span class="fu">fwrite</span>(quest_struct<span class="sc">$</span>answers, <span class="st">&quot;questionnaire_codebook.csv&quot;</span>)</span></code></pre></div>
+<p>If you require low-level access to the original JSON node definitions
+(such as custom properties or raw translation tables), set
+<code>include_raw = TRUE</code>:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="co"># Retain raw ..JSON list column</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>raw_struct <span class="ot">&lt;-</span> <span class="fu">suso_getQuestDetails</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="at">questID =</span> <span class="st">&quot;17a9fa22-1ef6-46d2-8c30-426aa876f273&quot;</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="at">version =</span> <span class="dv">1</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="at">operation.type =</span> <span class="st">&quot;structure&quot;</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>  <span class="at">include_raw =</span> <span class="cn">TRUE</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>)</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="co"># Access raw properties of the 10th node</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>raw_node <span class="ot">&lt;-</span> raw_struct<span class="sc">$</span>q<span class="sc">$</span>..JSON[[<span class="dv">10</span>]]</span></code></pre></div>
+<hr />
+</div>
+<div id="questionnaire-settings-audio-criticality" class="section level2">
+<h2>7. Questionnaire Settings: Audio &amp; Criticality</h2>
+<div id="audio-audit-recording" class="section level3">
+<h3>Audio Audit Recording</h3>
+<p>Survey Solutions supports background audio recording audits for
+quality assurance:</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># Query current audio recording setting</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>audio_setting <span class="ot">&lt;-</span> <span class="fu">suso_questRecordAudio</span>(</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="at">questID =</span> <span class="st">&quot;17a9fa22-1ef6-46d2-8c30-426aa876f273&quot;</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="at">version =</span> <span class="dv">1</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>)</span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a><span class="co"># Enable background audio recording</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a><span class="fu">suso_questRecordAudio</span>(</span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>  <span class="at">questID =</span> <span class="st">&quot;17a9fa22-1ef6-46d2-8c30-426aa876f273&quot;</span>,</span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>  <span class="at">version =</span> <span class="dv">1</span>,</span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a>  <span class="at">enabled =</span> <span class="cn">TRUE</span></span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+<div id="criticality-level" class="section level3">
+<h3>Criticality Level</h3>
+<p>You can programmatically retrieve or enforce validation
+criticality:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># Get current criticality level</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">suso_questCriticalityLevel</span>(</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="at">questID =</span> <span class="st">&quot;17a9fa22-1ef6-46d2-8c30-426aa876f273&quot;</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="at">version =</span> <span class="dv">1</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>)</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a><span class="co"># Set criticality level to Warn</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="fu">suso_questCriticalityLevel</span>(</span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>  <span class="at">questID =</span> <span class="st">&quot;17a9fa22-1ef6-46d2-8c30-426aa876f273&quot;</span>,</span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>  <span class="at">version =</span> <span class="dv">1</span>,</span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>  <span class="at">level =</span> <span class="st">&quot;Warn&quot;</span></span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>)</span></code></pre></div>
+</div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

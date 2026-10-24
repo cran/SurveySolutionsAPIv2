@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+
+<title>Data Export and Processing Pipelines</title>
+
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+
+<style type="text/css">
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+span.underline{text-decoration: underline;}
+div.column{display: inline-block; vertical-align: top; width: 50%;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+</style>
+
+
+
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } 
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.at { color: #7d9029; } 
+code span.bn { color: #40a070; } 
+code span.bu { color: #008000; } 
+code span.cf { color: #007020; font-weight: bold; } 
+code span.ch { color: #4070a0; } 
+code span.cn { color: #880000; } 
+code span.co { color: #60a0b0; font-style: italic; } 
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.do { color: #ba2121; font-style: italic; } 
+code span.dt { color: #902000; } 
+code span.dv { color: #40a070; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.fl { color: #40a070; } 
+code span.fu { color: #06287e; } 
+code span.im { color: #008000; font-weight: bold; } 
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } 
+code span.kw { color: #007020; font-weight: bold; } 
+code span.op { color: #666666; } 
+code span.ot { color: #007020; } 
+code span.pp { color: #bc7a00; } 
+code span.sc { color: #4070a0; } 
+code span.ss { color: #bb6688; } 
+code span.st { color: #4070a0; } 
+code span.va { color: #19177c; } 
+code span.vs { color: #4070a0; } 
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Data Export and Processing Pipelines</h1>
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Survey Solutions data extraction involves queuing export jobs on the
+server, monitoring their progress, downloading the resulting archive,
+and transforming raw files into labeled, clean analytical tables.</p>
+<p><strong><code>SurveySolutionsAPIv2</code></strong> implements the
+modern <strong>v2 Export API</strong> and provides high-level pipelines
+that handle this entire lifecycle automatically.</p>
+<hr />
+</div>
+<div id="supported-export-formats-and-options" class="section level2">
+<h2>1. Supported Export Formats and Options</h2>
+<p>Survey Solutions supports multiple export formats: -
+<strong><code>Tabular</code></strong>: Tab-delimited flat files
+(<code>.tab</code>). - <strong><code>STATA</code></strong>: Stata
+<code>.dta</code> files with variable labels and value labels. -
+<strong><code>SPSS</code></strong>: SPSS <code>.sav</code> files. -
+<strong><code>Parquet</code></strong>: Modern columnar storage, ideal
+for big data workflows. - <strong><code>Binary</code></strong>: Binary
+format for images, audio, and attachments. -
+<strong><code>DDI</code></strong>: Data Documentation Initiative XML
+metadata.</p>
+<hr />
+</div>
+<div id="managing-export-processes-v2-api" class="section level2">
+<h2>2. Managing Export Processes (v2 API)</h2>
+<p>The v2 Export API allows fine-grained control over server-side export
+jobs.</p>
+<div id="listing-active-and-historical-export-jobs" class="section level3">
+<h3>Listing Active and Historical Export Jobs</h3>
+<p><code>suso_getExportList()</code> retrieves export processes across
+formats and statuses:</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(SurveySolutionsAPIv2)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a><span class="co"># List all export processes in workspace</span></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a>export_jobs <span class="ot">&lt;-</span> <span class="fu">suso_getExportList</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># Sample export jobs</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>demo_exports[, .(JobId, ExportType, Status, HasFile, Progress, StartedAtUtc)]</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="co">#&gt;    JobId ExportType    Status HasFile Progress         StartedAtUtc</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#&gt;    &lt;int&gt;     &lt;char&gt;    &lt;char&gt;  &lt;lgcl&gt;    &lt;int&gt;               &lt;char&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="co">#&gt; 1:   501    Tabular Completed    TRUE      100 2025-01-22T10:00:00Z</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#&gt; 2:   502      STATA Completed    TRUE      100 2025-01-22T10:05:00Z</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#&gt; 3:   503    Parquet   Running   FALSE       45 2025-01-22T10:15:00Z</span></span></code></pre></div>
+</div>
+<div id="checking-process-status" class="section level3">
+<h3>Checking Process Status</h3>
+<p>To monitor an ongoing job:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># Poll specific export job</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>job_status <span class="ot">&lt;-</span> <span class="fu">suso_getExportProcess</span>(<span class="at">jobid =</span> <span class="dv">503</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">print</span>(job_status<span class="sc">$</span>Progress)</span></code></pre></div>
+</div>
+<div id="canceling-or-deleting-an-export-job" class="section level3">
+<h3>Canceling or Deleting an Export Job</h3>
+<p>If an export was initiated with incorrect filters:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># Cancel running job</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="fu">suso_cancelExport</span>(<span class="at">jobid =</span> <span class="dv">503</span>)</span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="automated-end-to-end-export-suso_export" class="section level2">
+<h2>3. Automated End-to-End Export: <code>suso_export()</code></h2>
+<p>While the low-level functions allow manual job polling,
+<code>suso_export()</code> wraps the entire workflow into a single
+command:</p>
+<pre><code>suso_export()
+   │
+   ├─► 1. Triggers export job on server (v2 API)
+   ├─► 2. Polls status with progress indicator
+   ├─► 3. Downloads ZIP when complete
+   ├─► 4. Unpacks and reads questionnaire metadata
+   ├─► 5. Attaches variable and question labels
+   ├─► 6. Merges translation files if available
+   └─► 7. Returns an exportClass list of data.tables</code></pre>
+<div id="basic-usage" class="section level3">
+<h3>Basic Usage</h3>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co"># Export all completed interviews as Tabular data</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>survey_data <span class="ot">&lt;-</span> <span class="fu">suso_export</span>(</span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="at">questID         =</span> <span class="st">&quot;17a9fa22-1ef6-46d2-8c30-426aa876f273&quot;</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="at">version         =</span> <span class="dv">1</span>,</span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="at">type            =</span> <span class="st">&quot;Tabular&quot;</span>,</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="at">workStatus      =</span> <span class="st">&quot;ApprovedByHeadquarters&quot;</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="at">reloadTimeDiff  =</span> <span class="dv">1</span>,          <span class="co"># Re-download only if older than 1 hour</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="at">addTranslation  =</span> <span class="cn">TRUE</span>        <span class="co"># Automatically merge translations</span></span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>)</span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="working-with-exportclass-objects" class="section level2">
+<h2>4. Working with <code>exportClass</code> Objects</h2>
+<p>Data returned by <code>suso_export()</code> is an
+<code>exportClass</code> object, which inherits from
+<code>data.table</code> and retains rich survey metadata as
+attributes.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># Create sample exportClass object</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>sample_dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="at">interview__id =</span> <span class="fu">c</span>(<span class="st">&quot;int-1&quot;</span>, <span class="st">&quot;int-2&quot;</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="at">hh_size =</span> <span class="fu">c</span>(4L, 5L),</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="at">total_exp =</span> <span class="fu">c</span>(<span class="fl">120.5</span>, <span class="fl">340.0</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>)</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>vlabs <span class="ot">&lt;-</span> <span class="fu">data.table</span>(</span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  <span class="at">VariableName =</span> <span class="fu">c</span>(<span class="st">&quot;hh_size&quot;</span>, <span class="st">&quot;total_exp&quot;</span>),</span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>  <span class="at">QuestionText =</span> <span class="fu">c</span>(<span class="st">&quot;Household Size&quot;</span>, <span class="st">&quot;Total Food Expenditure (USD)&quot;</span>)</span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>)</span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>exp_obj <span class="ot">&lt;-</span> <span class="fu">exportClass</span>(sample_dt, <span class="at">varLabels =</span> vlabs)</span></code></pre></div>
+<p>Check class membership:</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">is.exportClass</span>(exp_obj)</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#&gt; [1] TRUE</span></span></code></pre></div>
+<div id="retrieving-metadata-with-getinfo" class="section level3">
+<h3>Retrieving Metadata with <code>getinfo()</code></h3>
+<p><code>getinfo()</code> extracts custom metadata stored on the
+object:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="co"># List available attributes</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a><span class="fu">getinfo</span>(exp_obj, <span class="st">&quot;arglist&quot;</span>)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a><span class="co">#&gt; [1] &quot;hh_size&quot;    &quot;total_exp&quot;  &quot;na_numeric&quot; &quot;isPara&quot;</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co"># Inspect variable labels attached to attributes</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a><span class="fu">getinfo</span>(exp_obj, <span class="st">&quot;hh_size&quot;</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Household Size&quot;</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a><span class="fu">getinfo</span>(exp_obj, <span class="st">&quot;total_exp&quot;</span>)</span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a><span class="co">#&gt; [1] &quot;Total Food Expenditure (USD)&quot;</span></span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="parallel-processing-and-large-scale-censuses" class="section level2">
+<h2>5. Parallel Processing and Large-Scale Censuses</h2>
+<p>For national censuses or multi-round panel surveys with hundreds of
+thousands of interviews, <code>SurveySolutionsAPIv2</code> integrates
+with the <code>future</code> framework for parallelized exports:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">library</span>(future)</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a><span class="fu">library</span>(doFuture)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="co"># Set up parallel processing with 4 background sessions</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a><span class="fu">plan</span>(multisession, <span class="at">workers =</span> <span class="dv">4</span>)</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a><span class="co"># Configure concurrency options</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a><span class="fu">suso_set_maxpar_req</span>(<span class="dv">100</span>)</span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a><span class="co"># Run exports in parallel across questionnaire versions</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a><span class="co"># (handled seamlessly by foreach / %dopar% inside the package)</span></span></code></pre></div>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

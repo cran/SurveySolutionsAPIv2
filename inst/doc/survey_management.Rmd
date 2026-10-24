@@ -1,0 +1,239 @@
+---
+title: "Field Operations, Users, and Assignments"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Field Operations, Users, and Assignments}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+library(SurveySolutionsAPIv2)
+library(data.table)
+
+# Load pre-rendered demo data for offline vignette compilation
+ext_users <- system.file("extdata", "demo_users.rds", package = "SurveySolutionsAPIv2")
+if (file.exists(ext_users)) {
+  demo_users <- readRDS(ext_users)
+} else {
+  demo_users <- UserClass(list(Users = data.frame(UserName = "interviewer01", Role = "Interviewer")))
+}
+
+ext_ass <- system.file("extdata", "demo_assignments.rds", package = "SurveySolutionsAPIv2")
+if (file.exists(ext_ass)) {
+  demo_ass <- readRDS(ext_ass)
+} else {
+  demo_ass <- assignmentClass(list(Assignments = data.frame(Id = 101, ResponsibleName = "interviewer01")))
+}
+```
+
+## Introduction
+
+Coordinating large-scale field operations involves creating field staff accounts, provisioning regional workspaces, distributing sample assignments to enumerators, and managing spatial maps.
+
+**`SurveySolutionsAPIv2`** automates these operational workflows, enabling seamless integration with sample registries and field monitoring dashboards.
+
+---
+
+## 1. Workspace Administration
+
+Administrators can partition projects into isolated workspaces (e.g. by region, pilot vs. main survey, or distinct administrative units).
+
+> **Note on Permissions**: Workspace administration operations (`suso_createWorkspace`, `suso_updateWorkspace`, `suso_deleteWorkspace`, `suso_enableWorkspace`, and `suso_assignWorkspace`) require server-level **Administrator (`admin`)** credentials. Regular API user accounts are restricted to their assigned workspace and cannot create, modify, or delete workspaces.
+
+### Creating a New Workspace
+
+```r
+# Create a dedicated workspace for a regional survey (requires admin credentials)
+suso_createWorkspace(
+  new_workspace = "central_region",
+  displayName = "Central Region Survey 2025"
+)
+```
+
+### Updating Workspace Details
+
+```r
+# Update display name
+suso_updateWorkspace(
+  workspace = "central_region",
+  displayName = "Central Region (Updated Jan 2025)"
+)
+```
+
+### Enabling and Disabling Workspaces
+
+When fieldwork for a region concludes, disable the workspace to prevent unintended edits while keeping historical data intact:
+
+```r
+# Temporarily disable access
+suso_enableWorkspace(workspace = "central_region", enable = FALSE)
+
+# Re-enable access
+suso_enableWorkspace(workspace = "central_region", enable = TRUE)
+```
+
+---
+
+## 2. Managing Users and Field Staff
+
+Field hierarchies typically consist of Headquarters, Supervisors, and Interviewers.
+
+### Batch Creating Enumerators
+
+Rather than creating dozens of enumerator accounts manually via the web interface, `suso_createUSER()` provisions staff in bulk from a standard data frame:
+
+```r
+# Define field staff to create
+new_staff <- data.frame(
+  Role       = c("Supervisor", "Interviewer", "Interviewer"),
+  UserName   = c("supervisor01", "interviewer01", "interviewer02"),
+  Password   = c("SecurePass1!", "SecurePass1!", "SecurePass1!"),
+  Supervisor = c(NA, "supervisor01", "supervisor01"),
+  FullName   = c("Sarah Supervisor", "John Interviewer", "Amina Interviewer"),
+  stringsAsFactors = FALSE
+)
+
+# Create staff accounts on the server
+result <- suso_createUSER(userlist = new_staff)
+```
+
+### Querying Field Staff with `UserClass`
+
+To inspect active field staff, retrieve supervisors or interviewers:
+
+```r
+# List all supervisors
+supervisors <- suso_getSV()
+
+# List all interviewers and supervisors
+all_users <- suso_getUSR()
+```
+
+The returned object inherits from `UserClass` (and `data.table`), enabling direct table operations and custom summaries:
+
+```{r}
+# Display active staff
+demo_users[, .(UserName, Role, FullName, Supervisor)]
+```
+
+Check class membership:
+
+```{r}
+is.UserClass(demo_users)
+```
+
+---
+
+## 3. Creating and Managing Assignments
+
+Assignments represent fieldwork tasks allocated to specific interviewers or supervisors.
+
+### Creating Preloaded Assignments
+
+Assignments can be created with pre-filled sample identifiers (e.g. household ID, cluster, address, or target respondent name) using `suso_createASS()`:
+
+```r
+# Create assignments for a questionnaire
+suso_createASS(
+  questID = "17a9fa22-1ef6-46d2-8c30-426aa876f273",
+  version = 1,
+  df = list(
+    ResponsibleName = "interviewer01",
+    Quantity = 10
+  )
+)
+```
+
+### Querying Existing Assignments with `assignmentClass`
+
+`suso_get_assignments()` retrieves all assignments in the active workspace:
+
+```r
+# Retrieve all assignments
+assignments <- suso_get_assignments()
+```
+
+The returned object is an `assignmentClass` instance:
+
+```{r}
+# View sample assignments
+demo_ass[, .(Id, ResponsibleName, Quantity, InterviewsCount, Archived)]
+```
+
+Check class membership:
+
+```{r}
+is.assignmentClass(demo_ass)
+```
+
+### Reassigning Work and Modifying Assignments
+
+If an enumerator falls ill or fieldwork territories are adjusted, reassign assignments to another team member or modify target quotas using `suso_set_assignments()`:
+
+```r
+# Reassign assignment #101 to interviewer02 by username
+suso_set_assignments(
+  AssId = 101,
+  payload = "interviewer02",
+  operations.type = "assign"
+)
+
+# Alternatively, pass a data frame or data table with Responsible (or user UUID)
+suso_set_assignments(
+  AssId = 101,
+  payload = data.frame(Responsible = "8a816c29-a017-49d0-8258-8c27fc3a13f7"),
+  operations.type = "assign"
+)
+
+# Modify assignment interview quota (e.g. increase to 20, or -1 for unlimited)
+suso_set_assignments(
+  AssId = 101,
+  payload = 20,
+  operations.type = "changeQuantity"
+)
+```
+
+---
+
+## 4. Map Management for Spatial Surveys
+
+For spatial surveys, Survey Solutions supports offline basemaps (e.g. GeoTIFF, MBTiles, Shapefiles) downloaded to tablets.
+
+### Uploading and Assigning Maps
+
+```r
+# Either upload the content of a folder (automatically zipped)
+suso_mapupload(
+  workspace   = "myworkspace",
+  path_to_zip = "./mapfiles/"
+)
+
+# Or a zip file with the files included
+suso_mapupload(
+  workspace   = "myworkspace",
+  path_to_zip = "../mapfiles/maps.zip"
+)
+
+# Assign map to an interviewer
+suso_mapassign(
+  fileName   = "cluster_101_boundary.tif",
+  userName   = "interviewer01",
+  assignUser = TRUE
+)
+```
+
+### Generating Spatial Reports
+
+```r
+# Generate a map report of completed interviews
+suso_mapreport(
+  questID = "17a9fa22-1ef6-46d2-8c30-426aa876f273",
+  version = 1,
+  variable = "gps_dwelling"
+)
+```
